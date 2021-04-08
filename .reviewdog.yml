@@ -1,0 +1,4 @@
+runner:
+  ktlint:
+    cmd: ktlint --reporter=checkstyle --verbose && echo 2
+    format: checkstyle
