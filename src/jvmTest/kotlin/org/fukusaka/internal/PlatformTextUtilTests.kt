@@ -48,8 +48,10 @@ class PlatformTextUtilTests {
     fun testCollectionsLenientToStringJVM() {
         val a01 = arrayOf(12, 21)
         val a02 = listOf(34, 43)
+        val a03 = intArrayOf(12, 21)
 
-        assertEquals("12,21", a01.lenientToString())
+        assertTrue(a01.lenientToString().startsWith("[Ljava.lang.Integer;@"))
         assertEquals("[34, 43]", a02.lenientToString())
+        assertTrue(a03.lenientToString().startsWith("[I@"))
     }
 }

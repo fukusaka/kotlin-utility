@@ -1,0 +1,46 @@
+name: Check pull request
+
+on: pull_request
+
+jobs:
+  check:
+    name: Check pull request
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Restore gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      - name: Restore Konan cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-linux-1.4.21
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      - name: Restore Node cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            build/js/yarn.lock
+            build/js/node_modules
+            build/js/node_modules.state
+            build/js/packages_imported
+          key: ${{ runner.os }}-node-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'build/js/yarn.lock') }}
+
+      - name: Run Gradle build
+        run: ./gradlew build
