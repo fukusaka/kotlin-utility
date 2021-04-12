@@ -25,8 +25,8 @@ interface Multiset<E> : Collection<E> {
     fun count(element: E): Int
 
     interface Entry<E> {
-        val element: E;
-        val count: Int
+        val element: E  ;
+        val count: Int  ;
     }
 }
 
